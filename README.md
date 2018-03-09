@@ -1,4 +1,4 @@
 # goiffel
 
-goiffel implements the Eiffel protocol for golang.
+goiffel implements the [Eiffel Protocol](https://github.com/Ericsson/eiffel) for golang.
 
