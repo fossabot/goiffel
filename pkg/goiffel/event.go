@@ -13,6 +13,14 @@ type EiffelLink struct {
         Target          string
 }
 
+type EiffelAnnouncementPublishedEventData struct {
+	Heading         string            `required:"true"`
+	Body            string            `required:"true"`
+	Uri             string            `required:"true"`
+	Severity        string            `required:"true"`
+	CustomData      map[string]string `required:"false"`
+}
+
 type EiffelEvent struct {
         Meta            EiffelMeta      `required:"true"`
         Data            interface{}     `required:"true"`
