@@ -1,3 +1,4 @@
 package: github.com/softsense/goiffel
 import:
 - package: github.com/streadway/amqp
+- package: github.com/google/uuid
