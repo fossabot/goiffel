@@ -6,6 +6,8 @@ const EiffelArtifactCreatedEvent string = "EiffelArtifactCreatedEvent"
 const EiffelArtifactPublishedEvent string = "EiffelArtifactPublishedEvent"
 const DefaultEiffelEvent string = "DefaultEiffelEvent"
 
+type CustomData map[string]string
+
 type EiffelMeta struct {
         Id              string          `required:"true"`
         Type            string          `required:"true"`
@@ -24,7 +26,7 @@ type EiffelAnnouncementPublishedEventData struct {
 	Body            string            `required:"true"`
 	Uri             string            `required:"true"`
 	Severity        string            `required:"true"`
-	CustomData      map[string]string `required:"false"`
+	CustomData      CustomData        `required:"false"`
 }
 
 type Gav struct {
@@ -46,6 +48,7 @@ type EiffelArtifactCreatedEventData struct {
 	Implements              []Gav               `required:"false"`
 	DependsOn               []Gav               `required:"false"`
 	Name                    string              `required:"false"`
+	CustomData              CustomData
 }
 
 type Location struct {
