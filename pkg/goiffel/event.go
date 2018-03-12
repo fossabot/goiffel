@@ -1,5 +1,11 @@
 package goiffel
 
+const EventVersion string = "1.1.0"
+
+const EiffelArtifactCreatedEvent string = "EiffelArtifactCreatedEvent"
+const EiffelArtifactPublishedEvent string = "EiffelArtifactPublishedEvent"
+const DefaultEiffelEvent string = "DefaultEiffelEvent"
+
 type EiffelMeta struct {
         Id              string          `required:"true"`
         Type            string          `required:"true"`
@@ -59,6 +65,20 @@ type EiffelEvent struct {
 
 type OnEiffelEventReceived func(event EiffelEvent) ()
 
+type EventCallbacks map[string]OnEiffelEventReceived
+
 type EiffelChannel struct {
         ChannelData     interface{}     `required:"true"`
+}
+
+/***********************************
+ *
+ * Event Creation functions
+ *
+ ***********************************/
+
+func InitiateEiffelArtifactCreatedEvent(
+	data EiffelArtifactCreatedEventData,
+	links []EiffelLink) EiffelEvent {
+	return newEiffelEvent(data, links)
 }

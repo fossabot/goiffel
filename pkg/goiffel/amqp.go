@@ -21,7 +21,7 @@ type amqpData struct {
         Messages                <-chan amqp.Delivery
 }
 
-func (echan EiffelChannel) RegisterOnEventCallback(cb OnEiffelEventReceived) (err error) {
+func (echan EiffelChannel) RegisterOnEventCallback(cbacks EventCallbacks) (err error) {
         channelData, ok := echan.ChannelData.(*amqpData)
         if !ok {
                 return errors.New("Not a Amqp based Eiffel channel")
@@ -45,7 +45,17 @@ func (echan EiffelChannel) RegisterOnEventCallback(cb OnEiffelEventReceived) (er
                         log.Printf("Received a message: %s", d.Body)
                         var evt EiffelEvent
                         json.Unmarshal(d.Body, &evt)
-                        cb(evt)
+
+			cb := cbacks[evt.Meta.Type]
+			if cb != nil {
+				postReceiveParser(&evt)
+				cb(evt)
+			} else {
+				cb = cbacks[DefaultEiffelEvent]
+				if cb != nil {
+					cb(evt)
+				}
+			}
                 }
         }()
 
@@ -70,7 +80,7 @@ func (echan EiffelChannel) CleanupChannel() (err error) {
 	return nil
 }
 
-func CreateEiffelChannel(cfg AmqpConfig) (chn *EiffelChannel, err error) {
+func (cfg AmqpConfig) CreateEiffelChannel() (chn *EiffelChannel, err error) {
 
 	channelData := &amqpData{
 		Connection: nil,
