@@ -48,7 +48,7 @@ type EiffelArtifactCreatedEventData struct {
 	Implements              []Gav               `required:"false"`
 	DependsOn               []Gav               `required:"false"`
 	Name                    string              `required:"false"`
-	CustomData              CustomData
+	CustomData              CustomData          `required:"false"`
 }
 
 type Location struct {
