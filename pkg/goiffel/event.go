@@ -21,6 +21,36 @@ type EiffelAnnouncementPublishedEventData struct {
 	CustomData      map[string]string `required:"false"`
 }
 
+type Gav struct {
+	GroupId         string            `required:"true"`
+	ArtifactId      string            `required:"true"`
+	Version         string            `required:"true"`
+}
+
+type FileInformation struct {
+	Classifier      string            `required:"true"`
+	Extension       string            `required:"true"`
+}
+
+type EiffelArtifactCreatedEventData struct {
+	Gav                     Gav                 `required:"true"`
+	FileInformation         []FileInformation   `required:"false"`
+	BuildCommand            string              `required:"false"`
+	RequiresImplementation  string              `required:"false"`
+	Implements              []Gav               `required:"false"`
+	DependsOn               []Gav               `required:"false"`
+	Name                    string              `required:"false"`
+}
+
+type Location struct {
+	Type            string          `required:"true"`
+	Uri             string          `required:"true"`
+}
+
+type EiffelArtifactPublishedEventData struct {
+	Locations       []Location      `required:"true"`
+}
+
 type EiffelEvent struct {
         Meta            EiffelMeta      `required:"true"`
         Data            interface{}     `required:"true"`
