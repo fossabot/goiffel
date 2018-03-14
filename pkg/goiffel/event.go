@@ -83,11 +83,11 @@ type EiffelChannel struct {
 func InitiateEiffelArtifactCreatedEvent(
 	data EiffelArtifactCreatedEventData,
 	links []EiffelLink) EiffelEvent {
-	return newEiffelEvent(data, links)
+	return newEiffelEvent(EiffelArtifactCreatedEvent, data, links)
 }
 
 func InitiateEiffelArtifactPublishedEvent(
 	data EiffelArtifactPublishedEventData,
 	links []EiffelLink) EiffelEvent {
-	return newEiffelEvent(data, links)
+	return newEiffelEvent(EiffelArtifactPublishedEvent, data, links)
 }

@@ -10,11 +10,11 @@ func getTimeStampMilliSeconds() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
-func newEiffelEvent(data interface{}, links []EiffelLink) EiffelEvent {
+func newEiffelEvent(typeName string, data interface{}, links []EiffelLink) EiffelEvent {
 	return EiffelEvent{
 		Meta: EiffelMeta {
 			Id: uuid.New().String(),
-			Type: EiffelArtifactCreatedEvent,
+			Type: typeName,
 			Version: EventVersion,
 			Time: getTimeStampMilliSeconds(),
 		},
