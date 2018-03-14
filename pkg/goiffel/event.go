@@ -85,3 +85,9 @@ func InitiateEiffelArtifactCreatedEvent(
 	links []EiffelLink) EiffelEvent {
 	return newEiffelEvent(data, links)
 }
+
+func InitiateEiffelArtifactPublishedEvent(
+	data EiffelArtifactPublishedEventData,
+	links []EiffelLink) EiffelEvent {
+	return newEiffelEvent(data, links)
+}
