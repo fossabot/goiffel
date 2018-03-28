@@ -4,6 +4,7 @@ const EventVersion string = "1.1.0"
 
 const EiffelArtifactCreatedEvent string = "EiffelArtifactCreatedEvent"
 const EiffelArtifactPublishedEvent string = "EiffelArtifactPublishedEvent"
+const EiffelCompositionDefinedEvent string = "EiffelCompositionDefinedEvent"
 const DefaultEiffelEvent string = "DefaultEiffelEvent"
 
 type CustomData map[string]string
@@ -60,6 +61,11 @@ type EiffelArtifactPublishedEventData struct {
 	Locations       []Location      `required:"true"`
 }
 
+type EiffelCompositionDefinedEventData struct {
+	Name            string          `required:"true"`
+	Version         string          `required:"false"`
+}
+
 type EiffelEvent struct {
         Meta            EiffelMeta      `required:"true"`
         Data            interface{}     `required:"true"`
@@ -90,4 +96,10 @@ func InitiateEiffelArtifactPublishedEvent(
 	data EiffelArtifactPublishedEventData,
 	links []EiffelLink) EiffelEvent {
 	return newEiffelEvent(EiffelArtifactPublishedEvent, data, links)
+}
+
+func InitiateEiffelCompositionDefinedEvent(
+	data EiffelCompositionDefinedEventData,
+	links []EiffelLink) EiffelEvent {
+	return newEiffelEvent(EiffelCompositionDefinedEvent, data, links)
 }
