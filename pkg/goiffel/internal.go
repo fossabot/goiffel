@@ -23,16 +23,15 @@ func newEiffelEvent(typeName string, data interface{}, links []EiffelLink) Eiffe
 	}
 }
 
-func postParse_EiffelArtifactCreatedEvent(evt *EiffelEvent) error {
-	var parsed_data EiffelArtifactCreatedEventData
-
+func postParseEventData(parsed_data interface{}, evt *EiffelEvent) error {
 	// We convert the map[string]interface{}
 	// to json encoded data - then we unmarshal it
 	// again
 	temporary_json, err := json.Marshal(evt.Data)
 	if err != nil { return err }
 
-	err = json.Unmarshal(temporary_json, &parsed_data)
+
+	err = json.Unmarshal(temporary_json, parsed_data)
 	if err != nil { return err }
 
 	evt.Data = parsed_data
@@ -44,7 +43,16 @@ func postReceiveParser(evt *EiffelEvent) error {
 	switch t := evt.Meta.Type; t {
 
 	case EiffelArtifactCreatedEvent:
-		return postParse_EiffelArtifactCreatedEvent(evt)
+		var artifactCreated EiffelArtifactCreatedEventData
+		return postParseEventData(&artifactCreated, evt)
+
+	case EiffelArtifactPublishedEvent:
+		var artifactPublished EiffelArtifactPublishedEventData
+		return postParseEventData(&artifactPublished, evt)
+
+	case EiffelCompositionDefinedEvent:
+		var compositionDefined EiffelCompositionDefinedEventData
+		return postParseEventData(&compositionDefined, evt)
 
 	default:
 		return nil
