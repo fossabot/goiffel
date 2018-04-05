@@ -2,6 +2,7 @@ package goiffel
 
 import (
 	"time"
+	"log"
         "encoding/json"
 	"github.com/google/uuid"
 )
@@ -43,14 +44,17 @@ func postReceiveParser(evt *EiffelEvent) error {
 	switch t := evt.Meta.Type; t {
 
 	case EiffelArtifactCreatedEvent:
+		log.Printf("parsing EiffelArtifactCreatedEventData...")
 		var artifactCreated EiffelArtifactCreatedEventData
 		return postParseEventData(&artifactCreated, evt)
 
 	case EiffelArtifactPublishedEvent:
+		log.Printf("parsing EiffelArtifactPublishedEventData...")
 		var artifactPublished EiffelArtifactPublishedEventData
 		return postParseEventData(&artifactPublished, evt)
 
 	case EiffelCompositionDefinedEvent:
+		log.Printf("parsing EiffelCompositionDefinedEventData...")
 		var compositionDefined EiffelCompositionDefinedEventData
 		return postParseEventData(&compositionDefined, evt)
 
