@@ -31,11 +31,8 @@ func postParseEventData(parsed_data interface{}, evt *EiffelEvent) error {
 	temporary_json, err := json.Marshal(evt.Data)
 	if err != nil { return err }
 
-
 	err = json.Unmarshal(temporary_json, parsed_data)
 	if err != nil { return err }
-
-	evt.Data = parsed_data
 
 	return nil
 }
@@ -44,19 +41,31 @@ func postReceiveParser(evt *EiffelEvent) error {
 	switch t := evt.Meta.Type; t {
 
 	case EiffelArtifactCreatedEvent:
-		log.Printf("parsing EiffelArtifactCreatedEventData...")
+		log.Printf("--- parsing EiffelArtifactCreatedEventData...")
 		var artifactCreated EiffelArtifactCreatedEventData
-		return postParseEventData(&artifactCreated, evt)
+		err := postParseEventData(&artifactCreated, evt)
+		if err != nil {
+			evt.Data = artifactCreated
+		}
+		return err
 
 	case EiffelArtifactPublishedEvent:
-		log.Printf("parsing EiffelArtifactPublishedEventData...")
+		log.Printf("--- parsing EiffelArtifactPublishedEventData...")
 		var artifactPublished EiffelArtifactPublishedEventData
-		return postParseEventData(&artifactPublished, evt)
+		err := postParseEventData(&artifactPublished, evt)
+		if err != nil {
+			evt.Data = artifactPublished
+		}
+		return err
 
 	case EiffelCompositionDefinedEvent:
-		log.Printf("parsing EiffelCompositionDefinedEventData...")
+		log.Printf("--- parsing EiffelCompositionDefinedEventData...")
 		var compositionDefined EiffelCompositionDefinedEventData
-		return postParseEventData(&compositionDefined, evt)
+		err := postParseEventData(&compositionDefined, evt)
+		if err != nil {
+			evt.Data = compositionDefined
+		}
+		return err
 
 	default:
 		return nil
