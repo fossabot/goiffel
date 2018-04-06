@@ -2,7 +2,6 @@ package goiffel
 
 import (
 	"time"
-	"log"
         "encoding/json"
 	"github.com/google/uuid"
 )
@@ -41,30 +40,21 @@ func postReceiveParser(evt *EiffelEvent) error {
 	switch t := evt.Meta.Type; t {
 
 	case EiffelArtifactCreatedEvent:
-		log.Printf("--- parsing EiffelArtifactCreatedEventData...")
-		var artifactCreated EiffelArtifactCreatedEventData
-		err := postParseEventData(&artifactCreated, evt)
-		if err != nil {
-			evt.Data = artifactCreated
-		}
+		var parsed_data EiffelArtifactCreatedEventData
+		err := postParseEventData(&parsed_data, evt)
+		evt.Data = parsed_data
 		return err
 
 	case EiffelArtifactPublishedEvent:
-		log.Printf("--- parsing EiffelArtifactPublishedEventData...")
-		var artifactPublished EiffelArtifactPublishedEventData
-		err := postParseEventData(&artifactPublished, evt)
-		if err != nil {
-			evt.Data = artifactPublished
-		}
+		var parsed_data EiffelArtifactPublishedEventData
+		err := postParseEventData(&parsed_data, evt)
+		evt.Data = parsed_data
 		return err
 
 	case EiffelCompositionDefinedEvent:
-		log.Printf("--- parsing EiffelCompositionDefinedEventData...")
-		var compositionDefined EiffelCompositionDefinedEventData
-		err := postParseEventData(&compositionDefined, evt)
-		if err != nil {
-			evt.Data = compositionDefined
-		}
+		var parsed_data EiffelCompositionDefinedEventData
+		err := postParseEventData(&parsed_data, evt)
+		evt.Data = parsed_data
 		return err
 
 	default:
