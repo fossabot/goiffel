@@ -10,74 +10,74 @@ const DefaultEiffelEvent string = "DefaultEiffelEvent"
 type CustomData map[string]string
 
 type EiffelMeta struct {
-        Id              string          `required:"true"`
-        Type            string          `required:"true"`
-        Version         string          `required:"true"`
-        Time            int64           `required:"true"` // Creation, milliseconds since epoch
-        Tags            []string        `required:"false"`
+	Id      string   `required:"true"`
+	Type    string   `required:"true"`
+	Version string   `required:"true"`
+	Time    int64    `required:"true"` // Creation, milliseconds since epoch
+	Tags    []string `required:"false"`
 }
 
 type EiffelLink struct {
-        Type            string
-        Target          string
+	Type   string
+	Target string
 }
 
 type EiffelAnnouncementPublishedEventData struct {
-	Heading         string            `required:"true"`
-	Body            string            `required:"true"`
-	Uri             string            `required:"true"`
-	Severity        string            `required:"true"`
-	CustomData      CustomData        `required:"false"`
+	Heading    string     `required:"true"`
+	Body       string     `required:"true"`
+	Uri        string     `required:"true"`
+	Severity   string     `required:"true"`
+	CustomData CustomData `required:"false"`
 }
 
 type Gav struct {
-	GroupId         string            `required:"true"`
-	ArtifactId      string            `required:"true"`
-	Version         string            `required:"true"`
+	GroupId    string `required:"true"`
+	ArtifactId string `required:"true"`
+	Version    string `required:"true"`
 }
 
 type FileInformation struct {
-	Classifier      string            `required:"true"`
-	Extension       string            `required:"true"`
+	Classifier string `required:"true"`
+	Extension  string `required:"true"`
 }
 
 type EiffelArtifactCreatedEventData struct {
-	Gav                     Gav                 `required:"true"`
-	FileInformation         []FileInformation   `required:"false"`
-	BuildCommand            string              `required:"false"`
-	RequiresImplementation  string              `required:"false"`
-	Implements              []Gav               `required:"false"`
-	DependsOn               []Gav               `required:"false"`
-	Name                    string              `required:"false"`
-	CustomData              CustomData          `required:"false"`
+	Gav                    Gav               `required:"true"`
+	FileInformation        []FileInformation `required:"false"`
+	BuildCommand           string            `required:"false"`
+	RequiresImplementation string            `required:"false"`
+	Implements             []Gav             `required:"false"`
+	DependsOn              []Gav             `required:"false"`
+	Name                   string            `required:"false"`
+	CustomData             CustomData        `required:"false"`
 }
 
 type Location struct {
-	Type            string          `required:"true"`
-	Uri             string          `required:"true"`
+	Type string `required:"true"`
+	Uri  string `required:"true"`
 }
 
 type EiffelArtifactPublishedEventData struct {
-	Locations       []Location      `required:"true"`
+	Locations []Location `required:"true"`
 }
 
 type EiffelCompositionDefinedEventData struct {
-	Name            string          `required:"true"`
-	Version         string          `required:"false"`
+	Name    string `required:"true"`
+	Version string `required:"false"`
 }
 
 type EiffelEvent struct {
-        Meta            EiffelMeta      `required:"true"`
-        Data            interface{}     `required:"true"`
-        Links           []EiffelLink
+	Meta  EiffelMeta  `required:"true"`
+	Data  interface{} `required:"true"`
+	Links []EiffelLink
 }
 
-type OnEiffelEventReceived func(event EiffelEvent) ()
+type OnEiffelEventReceived func(event EiffelEvent)
 
 type EventCallbacks map[string]OnEiffelEventReceived
 
 type EiffelChannel struct {
-        ChannelData     interface{}     `required:"true"`
+	ChannelData interface{} `required:"true"`
 }
 
 /***********************************
