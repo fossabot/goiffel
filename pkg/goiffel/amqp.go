@@ -20,6 +20,43 @@ type amqpData struct {
 	Messages   <-chan amqp.Delivery
 }
 
+func NewEiffelChannel(cfg AmqpConfig) (chn *EiffelChannel, err error) {
+	channelData := &amqpData{
+		Connection: nil,
+		Channel:    nil,
+	}
+	echan := &EiffelChannel{
+		ChannelData: channelData,
+	}
+
+	channelData.Connection, err = amqp.Dial(cfg.AmqpUrl)
+	if err != nil {
+		echan.CleanupChannel()
+		return nil, err
+	}
+
+	channelData.Channel, err = channelData.Connection.Channel()
+	if err != nil {
+		echan.CleanupChannel()
+		return nil, err
+	}
+
+	channelData.Queue, err = channelData.Channel.QueueDeclare(
+		cfg.QueueName, // name
+		false,         // durable
+		false,         // delete when unused
+		false,         // exclusive
+		false,         // no-wait
+		nil,           // arguments
+	)
+	if err != nil {
+		echan.CleanupChannel()
+		return nil, err
+	}
+
+	return echan, nil
+}
+
 func (echan EiffelChannel) RegisterOnEventCallback(cbacks EventCallbacks) (err error) {
 	channelData, ok := echan.ChannelData.(*amqpData)
 	if !ok {
@@ -77,44 +114,6 @@ func (echan EiffelChannel) CleanupChannel() (err error) {
 	}
 
 	return nil
-}
-
-func (cfg AmqpConfig) CreateEiffelChannel() (chn *EiffelChannel, err error) {
-
-	channelData := &amqpData{
-		Connection: nil,
-		Channel:    nil,
-	}
-	echan := &EiffelChannel{
-		ChannelData: channelData,
-	}
-
-	channelData.Connection, err = amqp.Dial(cfg.AmqpUrl)
-	if err != nil {
-		echan.CleanupChannel()
-		return nil, err
-	}
-
-	channelData.Channel, err = channelData.Connection.Channel()
-	if err != nil {
-		echan.CleanupChannel()
-		return nil, err
-	}
-
-	channelData.Queue, err = channelData.Channel.QueueDeclare(
-		cfg.QueueName, // name
-		false,         // durable
-		false,         // delete when unused
-		false,         // exclusive
-		false,         // no-wait
-		nil,           // arguments
-	)
-	if err != nil {
-		echan.CleanupChannel()
-		return nil, err
-	}
-
-	return echan, nil
 }
 
 func (echan EiffelChannel) TransmitEiffelEvent(evt EiffelEvent) (err error) {

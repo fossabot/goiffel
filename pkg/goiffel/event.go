@@ -86,19 +86,19 @@ type EiffelChannel struct {
  *
  ***********************************/
 
-func InitiateEiffelArtifactCreatedEvent(
+func NewEiffelArtifactCreatedEvent(
 	data EiffelArtifactCreatedEventData,
 	links []EiffelLink) EiffelEvent {
 	return newEiffelEvent(EiffelArtifactCreatedEvent, data, links)
 }
 
-func InitiateEiffelArtifactPublishedEvent(
+func NewEiffelArtifactPublishedEvent(
 	data EiffelArtifactPublishedEventData,
 	links []EiffelLink) EiffelEvent {
 	return newEiffelEvent(EiffelArtifactPublishedEvent, data, links)
 }
 
-func InitiateEiffelCompositionDefinedEvent(
+func NewEiffelCompositionDefinedEvent(
 	data EiffelCompositionDefinedEventData,
 	links []EiffelLink) EiffelEvent {
 	return newEiffelEvent(EiffelCompositionDefinedEvent, data, links)
