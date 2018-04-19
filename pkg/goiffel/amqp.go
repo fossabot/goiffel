@@ -57,7 +57,7 @@ func NewEiffelChannel(cfg AmqpConfig) (chn *EiffelChannel, err error) {
 	return echan, nil
 }
 
-func (echan EiffelChannel) RegisterOnEventCallback(cbacks EventCallbacks) (err error) {
+func (echan *EiffelChannel) RegisterOnEventCallback(cbacks EventCallbacks) (err error) {
 	channelData, ok := echan.ChannelData.(*amqpData)
 	if !ok {
 		return errors.New("Not a Amqp based Eiffel channel")
@@ -99,7 +99,7 @@ func (echan EiffelChannel) RegisterOnEventCallback(cbacks EventCallbacks) (err e
 	return nil
 }
 
-func (echan EiffelChannel) CleanupChannel() (err error) {
+func (echan *EiffelChannel) CleanupChannel() (err error) {
 	channelData, ok := echan.ChannelData.(amqpData)
 	if !ok {
 		return errors.New("Not a Amqp based Eiffel channel")
@@ -116,7 +116,7 @@ func (echan EiffelChannel) CleanupChannel() (err error) {
 	return nil
 }
 
-func (echan EiffelChannel) TransmitEiffelEvent(evt EiffelEvent) (err error) {
+func (echan *EiffelChannel) TransmitEiffelEvent(evt EiffelEvent) (err error) {
 	channelData, ok := echan.ChannelData.(*amqpData)
 	if !ok {
 		return errors.New("Not a Amqp based Eiffel channel")
